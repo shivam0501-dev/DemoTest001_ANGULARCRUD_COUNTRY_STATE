@@ -1,0 +1,61 @@
+<form [formGroup]="CountryForm" (ngSubmit)="AddCountry()" class="pt-5">
+    <div class="mb-3">
+      <input type="hidden" value="0" formControlName="CountryId"/>
+      <label for="exampleInputEmail1" class="form-label">Country Name</label>
+      <input [class.is-invalid]="CountryForm.get('CountryName')?.errors && CountryForm.get('CountryName')?.touched" type="text" formControlName="CountryName" class="form-control"  placeholder="Country Name">
+      <div class="invalid-feedback" *ngIf="CountryForm.get('CountryName')?.hasError('required')">
+        please enter a Country Name
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Country Code</label>
+      <input [class.is-invalid]="CountryForm.get('CountryCode')?.errors && CountryForm.get('CountryCode')?.touched" type="text" formControlName="CountryCode" class="form-control"  placeholder="Country Code">
+      <div class="invalid-feedback" *ngIf="CountryForm.get('CountryCode')?.hasError('required')">
+        please enter a Country Name
+      </div>
+    </div>
+    
+    <button *ngIf="!AddOrUpdateButton" [disabled]="!CountryForm.valid" type="submit" class="btn btn-primary">Save</button>
+    <button *ngIf="AddOrUpdateButton" type="button" (click)="UpdateCountry()" class="btn btn-primary">Update</button>
+
+  </form>
+ 
+<div class="row p-5" style="height: 400px;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Country Name</th>
+        <th scope="col">Country  Code</th>
+        <th scope="col">Created Date</th>
+        <th scope="col">Created  By</th>
+        <th scope="col">Modified By</th>
+        <th scope="col">Modified Date</th>
+
+
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of AllCountrys">
+        <th scope="row">{{ item.countryId }}</th>
+        <td>{{ item.countryName }}</td>
+        <td>{{ item.countryCode }}</td>
+        <td>{{ item.createdDate.split('T')[0] }}</td>
+        <td>{{ item.createdBy }}</td>
+        <td>{{ item.modifiedDate.split('T')[0] }}</td>
+        <td>{{ item.modifiedBy }}</td>
+        
+
+        <th>
+          <a href="#" class="btn btn-primary mr-2" (click)="EditCountry(item.countryId)">Edit</a>
+          <a href="#" class="btn btn-danger" (click)="DeleteCountry(item.countryId)">Delete</a>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+  

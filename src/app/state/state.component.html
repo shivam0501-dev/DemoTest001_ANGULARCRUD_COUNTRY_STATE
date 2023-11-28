@@ -1,0 +1,76 @@
+<form [formGroup]="stateForm" (ngSubmit)="AddState()" class="pt-5">
+  <div class="mb-3">
+    <input type="hidden" value="0" formControlName="stateId"/>
+    <label for="exampleInputEmail1" class="form-label">Country Name</label>
+    <select [class.is-invalid]="stateForm.get('CountryID')?.errors && stateForm.get('CountryID')?.touched" formControlName="CountryID" class="form-select"  placeholder="Country Name">
+       <option>--Select Country--</option>
+      <option *ngFor="let country of AllBindCountry" [value]="country.countryId">{{ country.countryName }}</option>
+    </select>
+    <!-- <input [class.is-invalid]="stateForm.get('CountryID')?.errors && stateForm.get('CountryID')?.touched" type="text" formControlName="CountryID" class="form-control"  placeholder="State Name"> -->
+
+    <div class="invalid-feedback" *ngIf="stateForm.get('CountryID')?.hasError('required')">
+        Please enter a Country Name
+    </div>
+</div>
+
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">State Name</label>
+    <input [class.is-invalid]="stateForm.get('stateName')?.errors && stateForm.get('stateName')?.touched" type="text" formControlName="stateName" class="form-control"  placeholder="State Name">
+    <div class="invalid-feedback" *ngIf="stateForm.get('stateName')?.hasError('required')">
+      please enter a State Name
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">State Code</label>
+    <input [class.is-invalid]="stateForm.get('stateCode')?.errors && stateForm.get('stateCode')?.touched" type="text" formControlName="stateCode" class="form-control"  placeholder="State Code">
+    <div class="invalid-feedback" *ngIf="stateForm.get('stateCode')?.hasError('required')">
+      please enter a State Code
+    </div>
+  </div>
+  <button *ngIf="!AddOrUpdateButton" [disabled]="!stateForm.valid" type="submit" class="btn btn-primary">Save</button>
+  <button *ngIf="AddOrUpdateButton" type="button" (click)="UpdateState()" class="btn btn-primary">Update</button>
+
+</form>
+
+<div class="row p-5" style="height: 400px;">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Country Name</th>
+      <th scope="col">State  Name</th>
+
+      <th scope="col">State  Code</th>
+      <th scope="col">Created Date</th>
+      <th scope="col">Created  By</th>
+      <th scope="col">Modified By</th>
+      <th scope="col">Modified Date</th>
+
+
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of AllState">
+      <th scope="row">{{ item.stateId }}</th>
+      <td>{{ item.country.countryName }}</td>
+      <td>{{ item.stateName }}</td>
+
+      <td>{{ item.stateCode }}</td>
+      <td>{{ item.createdDate.split('T')[0] }}</td>
+      <td>{{ item.createdBy }}</td>
+      <td>{{ item.modifiedDate.split('T')[0] }}</td>
+      <td>{{ item.modifiedBy }}</td>
+      
+
+      <th>
+        <a href="#" class="btn btn-primary mr-2" (click)="EditState(item.stateId)">Edit</a>
+        <a href="#" class="btn btn-danger" (click)="DeleteState(item.stateId)">Delete</a>
+      </th>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
